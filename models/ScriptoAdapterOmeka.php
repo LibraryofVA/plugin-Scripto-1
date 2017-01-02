@@ -140,7 +140,27 @@ class ScriptoAdapterOmeka implements Scripto_Adapter_Interface
         }
         return $titles[0]->text;
     }
+	
+	/**
+     * Get the is_referenced_by of the document.
+     * 
+     * @param int|string $documentId The document ID
+     * @return string
+     */
+	public function getDocumentIsReferencedBy($documentId)
+    {
+        if (!$this->documentExists($documentId)) {
+            return false;
+        }
+		$item = $this->_item;
 
+        $isrefby = $item->getElementTexts('Dublin Core', 'Is Referenced By');
+        if (empty($isrefby)) {
+            return '';
+        }
+        return $isrefby[0]->text;
+    }
+	
     /**
      * Get the name of the document page.
      *

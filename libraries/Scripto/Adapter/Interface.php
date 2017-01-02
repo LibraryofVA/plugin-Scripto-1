@@ -101,6 +101,14 @@ interface Scripto_Adapter_Interface
      */
     public function getDocumentPageName($documentId, $pageId);
 
+	/**
+     * Get the is_referenced_by of the document.
+     *
+     * @param int|string $documentId The document ID
+     * @return string
+     */
+    public function getDocumentIsReferencedBy($documentId);
+
     /**
      * Indicate whether the document transcription has been imported.
      *

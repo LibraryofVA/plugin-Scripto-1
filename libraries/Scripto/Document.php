@@ -117,6 +117,7 @@ class Scripto_Document
         $this->_adapter = $adapter;
         $this->_mediawiki = $mediawiki;
         $this->_title = $this->_adapter->getDocumentTitle($id);
+		$this->_IsReferencedBy = $this->_adapter->getDocumentIsReferencedBy($id);
     }
 
     /**
@@ -198,6 +199,14 @@ class Scripto_Document
     {
         return $this->_pageId;
     }
+
+	/**
+	 * Get this document's is_referenced_by.
+	 */
+	public function getIsReferencedBy()
+	{
+		return $this->_IsReferencedBy;
+	}
 
     /**
      * Get this document's current base title.
