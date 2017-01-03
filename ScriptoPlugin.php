@@ -537,30 +537,53 @@ class ScriptoPlugin extends Omeka_Plugin_AbstractPlugin
      */
     public static function openLayers($file)
     {
-        // Check size via local path to avoid to use the server.
-        $imagePath = realpath(FILES_DIR . DIRECTORY_SEPARATOR . get_option('scripto_file_source_path') . DIRECTORY_SEPARATOR . $file->filename);
-        $imageSize = ScriptoPlugin::getImageSize($imagePath, 250);
-        // Image to send.
-        $imageUrl = $file->getWebPath(get_option('scripto_file_source'));
+		$imageUrl = $file->getWebPath(get_option('scripto_file_source'));
+        $imageSize = ScriptoPlugin::getImageSize($imageUrl);
 ?>
 <script type="text/javascript">
 jQuery(document).ready(function() {
-    var scriptoMap = new OpenLayers.Map('scripto-openlayers', {
-        controls: [
-            new OpenLayers.Control.Navigation(),
-            new OpenLayers.Control.PanZoom(),
-            new OpenLayers.Control.KeyboardDefaults()
-        ]
-    });
-    var graphic = new OpenLayers.Layer.Image(
-        'Document Page',
-        <?php echo js_escape($imageUrl); ?>,
-        new OpenLayers.Bounds(-<?php echo $imageSize['width']; ?>, -<?php echo $imageSize['height']; ?>, <?php echo $imageSize['width']; ?>, <?php echo $imageSize['height']; ?>),
-        new OpenLayers.Size(<?php echo $imageSize['width']; ?>, <?php echo $imageSize['height']; ?>)
-    );
-    scriptoMap.addLayers([graphic]);
-    scriptoMap.zoomToMaxExtent();
-});
+    var pixelProjection = new ol.proj.Projection({
+		  code: 'pixel',
+		  units: 'pixels',
+		  extent: [0, 0, <?php echo $imageSize['height']; ?>, <?php echo $imageSize['width']; ?>]
+		});
+		map = new ol.Map({
+		  controls: ol.control.defaults().extend([
+			new ol.control.FullScreen()
+		  ]),
+		  layers: [
+			new ol.layer.Image({
+			  source: new ol.source.ImageStatic({
+				url: <?php echo js_escape($imageUrl); ?>,
+				imageSize: [<?php echo $imageSize['height']; ?>, <?php echo $imageSize['width']; ?>],
+				projection: pixelProjection,
+				imageExtent: pixelProjection.getExtent()
+			  })
+			})
+		  ],
+		  target: 'scripto-openlayers',
+		  view: new ol.View({
+			projection: pixelProjection,
+			center: ol.extent.getCenter(pixelProjection.getExtent()),
+			zoom: 1
+		  })
+		});
+		zoomslider = new ol.control.ZoomSlider();
+		map.addControl(zoomslider);
+		
+		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResize()\">enlarge/reduce your view</button></div><br>");
+		
+		$("#scripto-openlayers").append("<!-- " + $( window ).height() + " -->");
+	});
+	function displayResize() {
+		if(document.getElementById('scripto-openlayers').style.height == "400px") {
+			var windowHeight = parseInt($( window ).height()) - 20;
+			document.getElementById('scripto-openlayers').style.height = windowHeight + "px";
+		} else {
+			document.getElementById('scripto-openlayers').style.height = "400px";
+		}
+		map.updateSize();
+	}
 </script>
 <div id="scripto-openlayers" class="<?php echo get_option('scripto_viewer_class'); ?>"></div>
 <?php
