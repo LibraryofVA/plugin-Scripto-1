@@ -571,9 +571,7 @@ jQuery(document).ready(function() {
 		zoomslider = new ol.control.ZoomSlider();
 		map.addControl(zoomslider);
 		
-		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResize()\">enlarge/reduce your view</button></div><br>");
-		
-		$("#scripto-openlayers").append("<!-- " + $( window ).height() + " -->");
+		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResize()\">enlarge/reduce your view</button> <button type=\"button\" onclick=\"layoutChange()\">horizontal/vertial layout</button></div><br>");
 	});
 	function displayResize() {
 		if(document.getElementById('scripto-openlayers').style.height == "600px") {
@@ -583,6 +581,13 @@ jQuery(document).ready(function() {
 			document.getElementById('scripto-openlayers').style.height = "600px";
 		}
 		map.updateSize();
+	}
+	function layoutChange() {
+		if(document.getElementById('transcription-block').style.display == "inline-block") {
+			document.getElementById('transcription-block').style.display = "block";
+		} else {
+			document.getElementById('transcription-block').style.display = "inline-block";
+		}
 	}
 </script>
 <div id="scripto-openlayers" style="height: 600px;" class="<?php echo get_option('scripto_viewer_class'); ?>"></div>
