@@ -576,16 +576,16 @@ jQuery(document).ready(function() {
 		$("#scripto-openlayers").append("<!-- " + $( window ).height() + " -->");
 	});
 	function displayResize() {
-		if(document.getElementById('scripto-openlayers').style.height == "400px") {
+		if(document.getElementById('scripto-openlayers').style.height == "600px") {
 			var windowHeight = parseInt($( window ).height()) - 20;
 			document.getElementById('scripto-openlayers').style.height = windowHeight + "px";
 		} else {
-			document.getElementById('scripto-openlayers').style.height = "400px";
+			document.getElementById('scripto-openlayers').style.height = "600px";
 		}
 		map.updateSize();
 	}
 </script>
-<div id="scripto-openlayers" class="<?php echo get_option('scripto_viewer_class'); ?>"></div>
+<div id="scripto-openlayers" style="height: 600px;" class="<?php echo get_option('scripto_viewer_class'); ?>"></div>
 <?php
     }
 
