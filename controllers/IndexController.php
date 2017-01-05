@@ -458,4 +458,14 @@ class Scripto_IndexController extends Omeka_Controller_AbstractActionController
             $this->getResponse()->setHttpResponseCode(500);
         }
     }
+	
+	/**
+     * Used in conjunction with Scripto mediawiki user to mimic anonymous editing.
+     */
+	public function customloginAction()
+    {
+	}
+	public function customlogoutAction()
+    {
+	}
 }
