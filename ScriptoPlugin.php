@@ -566,14 +566,23 @@ jQuery(document).ready(function() {
 		  })
 		});
 		
-		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResize()\">enlarge/reduce your view</button> <button type=\"button\" onclick=\"layoutChange()\">horizontal/vertial layout</button></div><br>");
+		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResizeVertical()\">enlarge/reduce view vertically</button> <button type=\"button\" onclick=\"displayResizeHorizontal()\">enlarge/reduce view horizontally</button> <button type=\"button\" onclick=\"layoutChange()\">horizontal/vertial layout</button></div><br>");
 	});
-	function displayResize() {
+	function displayResizeVertical() {
 		if(document.getElementById('scripto-openlayers').style.height == "600px") {
 			var windowHeight = parseInt($( window ).height()) - 20;
 			document.getElementById('scripto-openlayers').style.height = windowHeight + "px";
 		} else {
 			document.getElementById('scripto-openlayers').style.height = "600px";
+		}
+		map.updateSize();
+	}
+	function displayResizeHorizontal() {
+		if(document.getElementById('scripto-openlayers').style.width == "912px") {
+			var windowWidth = parseInt($( window ).width()) - 83;
+			document.getElementById('scripto-openlayers').style.width = windowWidth + "px";
+		} else {
+			document.getElementById('scripto-openlayers').style.width = "912px";
 		}
 		map.updateSize();
 	}
@@ -585,7 +594,7 @@ jQuery(document).ready(function() {
 		}
 	}
 </script>
-<div id="scripto-openlayers" style="height: 600px;" class="<?php echo get_option('scripto_viewer_class'); ?>"></div>
+<div id="scripto-openlayers" style="height: 600px; width: 912px;" class="<?php echo get_option('scripto_viewer_class'); ?>"></div>
 <?php
     }
 
