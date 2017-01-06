@@ -548,9 +548,6 @@ jQuery(document).ready(function() {
 		  extent: [0, 0, <?php echo $imageSize['height']; ?>, <?php echo $imageSize['width']; ?>]
 		});
 		map = new ol.Map({
-		  controls: ol.control.defaults().extend([
-			new ol.control.FullScreen()
-		  ]),
 		  layers: [
 			new ol.layer.Image({
 			  source: new ol.source.ImageStatic({
@@ -568,8 +565,6 @@ jQuery(document).ready(function() {
 			zoom: 1
 		  })
 		});
-		zoomslider = new ol.control.ZoomSlider();
-		map.addControl(zoomslider);
 		
 		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResize()\">enlarge/reduce your view</button> <button type=\"button\" onclick=\"layoutChange()\">horizontal/vertial layout</button></div><br>");
 	});
