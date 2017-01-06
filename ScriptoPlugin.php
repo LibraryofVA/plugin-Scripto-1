@@ -566,35 +566,39 @@ jQuery(document).ready(function() {
 		  })
 		});
 		
-		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResizeVertical()\">enlarge/reduce view vertically</button> <button type=\"button\" onclick=\"displayResizeHorizontal()\">enlarge/reduce view horizontally</button> <button type=\"button\" onclick=\"layoutChange()\">horizontal/vertial layout</button></div><br>");
+		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResizeVertical()\">enlarge/reduce view vertically</button> <button type=\"button\" id=\"displayResizeHorizontalButton\" style=\"display:none;\" onclick=\"displayResizeHorizontal()\">enlarge/reduce view horizontally</button> <button type=\"button\" onclick=\"layoutChange()\">horizontal/vertial layout</button></div><br>");
 	});
 	function displayResizeVertical() {
-		if(document.getElementById('scripto-openlayers').style.height == "600px") {
-			var windowHeight = parseInt($( window ).height()) - 20;
-			document.getElementById('scripto-openlayers').style.height = windowHeight + "px";
-		} else {
+		var windowHeight = parseInt($( window ).height()) - 20;
+		if(document.getElementById('scripto-openlayers').style.height == windowHeight + "px") {
 			document.getElementById('scripto-openlayers').style.height = "600px";
+		} else {
+			document.getElementById('scripto-openlayers').style.height = windowHeight + "px";
 		}
 		map.updateSize();
 	}
 	function displayResizeHorizontal() {
-		if(document.getElementById('scripto-openlayers').style.width == "912px") {
-			var windowWidth = parseInt($( window ).width()) - 83;
-			document.getElementById('scripto-openlayers').style.width = windowWidth + "px";
+		var windowWidth = parseInt($( window ).width()) - 83;
+		if(document.getElementById('scripto-openlayers').style.width == windowWidth + "px") {
+			document.getElementById('scripto-openlayers').style.width = ((parseInt($( window ).width()) - 83)/2) + "px";
 		} else {
-			document.getElementById('scripto-openlayers').style.width = "912px";
+			document.getElementById('scripto-openlayers').style.width = windowWidth + "px";
 		}
 		map.updateSize();
 	}
 	function layoutChange() {
 		if(document.getElementById('transcription-block').style.display == "inline-block") {
 			document.getElementById('transcription-block').style.display = "block";
+			document.getElementById('displayResizeHorizontalButton').style.display = "inline";
 		} else {
 			document.getElementById('transcription-block').style.display = "inline-block";
+			document.getElementById('scripto-openlayers').style.width = ((parseInt($( window ).width()) - 83)/2) + "px";
+			map.updateSize();
+			document.getElementById('displayResizeHorizontalButton').style.display = "none";
 		}
 	}
 </script>
-<div id="scripto-openlayers" style="height: 600px; width: 912px;" class="<?php echo get_option('scripto_viewer_class'); ?>"></div>
+<div id="scripto-openlayers" class="<?php echo get_option('scripto_viewer_class'); ?>"></div>
 <?php
     }
 
