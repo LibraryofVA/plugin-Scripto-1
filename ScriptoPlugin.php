@@ -565,15 +565,18 @@ jQuery(document).ready(function() {
 			zoom: 1
 		  })
 		});
-		
-		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResizeVertical()\">enlarge/reduce view vertically</button> <button type=\"button\" id=\"displayResizeHorizontalButton\" style=\"display:none;\" onclick=\"displayResizeHorizontal()\">enlarge/reduce view horizontally</button> <button type=\"button\" onclick=\"layoutChange()\">horizontal/vertial layout</button></div><br>");
+		$(".ol-viewport").append("<div id=\"focusbar-top\" style=\"position: absolute; top: 0; left: 0; width: 100%; height: 40%; background: rgba(100, 100, 100, 0.9); display: none;\"></div>");
+		$(".ol-viewport").append("<div id=\"focusbar-bottom\" style=\"position: absolute; bottom: 0; left: 0; width: 100%; height: 40%; background: rgba(100, 100, 100, 0.9); display: none;\"></div>");
+		$("#scripto-openlayers").append("<div id=\"enlargeDisplay\"><button type=\"button\" onclick=\"displayResizeVertical()\" title=\"enlarge/reduce view vertically\"><img id=\"displayResizeVerticalImg\" src=\"/transcribe/themes/scribe/images/expand-vertically.png\"></button> <button type=\"button\" id=\"displayResizeHorizontalButton\" style=\"display:none;\" onclick=\"displayResizeHorizontal()\" title=\"enlarge/reduce view horizontally\"><img id=\"displayResizeHorizontalImg\" src=\"/transcribe/themes/scribe/images/expand-horizontal.png\"></button> <button type=\"button\" onclick=\"layoutChange()\" title=\"horizontal/vertial layout\"><img id=\"layoutChangeImg\" src=\"/transcribe/themes/scribe/images/layout-vertical.png\"></button> <button type=\"button\" onclick=\"focusBarToggle()\" title=\"focus bar toggle\"><img id=\"focusBarImg\" src=\"/transcribe/themes/scribe/images/focus-bar-turnon.png\"></button></div><br>");
 	});
 	function displayResizeVertical() {
 		var windowHeight = parseInt($( window ).height()) - 20;
 		if(document.getElementById('scripto-openlayers').style.height == windowHeight + "px") {
 			document.getElementById('scripto-openlayers').style.height = "600px";
+			jQuery("#displayResizeVerticalImg").attr('src','/transcribe/themes/scribe/images/expand-vertically.png');
 		} else {
 			document.getElementById('scripto-openlayers').style.height = windowHeight + "px";
+			jQuery("#displayResizeVerticalImg").attr('src','/transcribe/themes/scribe/images/reduce-vertically.png');
 		}
 		map.updateSize();
 	}
@@ -581,8 +584,10 @@ jQuery(document).ready(function() {
 		var windowWidth = parseInt($( window ).width()) - 83;
 		if(document.getElementById('scripto-openlayers').style.width == windowWidth + "px") {
 			document.getElementById('scripto-openlayers').style.width = ((parseInt($( window ).width()) - 83)/2) + "px";
+			jQuery("#displayResizeHorizontalImg").attr('src','/transcribe/themes/scribe/images/expand-horizontal.png');
 		} else {
 			document.getElementById('scripto-openlayers').style.width = windowWidth + "px";
+			jQuery("#displayResizeHorizontalImg").attr('src','/transcribe/themes/scribe/images/reduce-horizontal.png');
 		}
 		map.updateSize();
 	}
@@ -590,11 +595,25 @@ jQuery(document).ready(function() {
 		if(document.getElementById('transcription-block').style.display == "inline-block") {
 			document.getElementById('transcription-block').style.display = "block";
 			document.getElementById('displayResizeHorizontalButton').style.display = "inline";
+			jQuery("#layoutChangeImg").attr('src','/transcribe/themes/scribe/images/layout-horizontal.png');
 		} else {
 			document.getElementById('transcription-block').style.display = "inline-block";
 			document.getElementById('scripto-openlayers').style.width = ((parseInt($( window ).width()) - 83)/2) + "px";
+			jQuery("#displayResizeHorizontalImg").attr('src','/transcribe/themes/scribe/images/expand-horizontal.png');
 			map.updateSize();
 			document.getElementById('displayResizeHorizontalButton').style.display = "none";
+			jQuery("#layoutChangeImg").attr('src','/transcribe/themes/scribe/images/layout-vertical.png');
+		}
+	}
+	function focusBarToggle() {
+		if(document.getElementById('focusbar-top').style.display == "block") {
+			document.getElementById('focusbar-top').style.display = "none";
+			document.getElementById('focusbar-bottom').style.display = "none";
+			jQuery("#focusBarImg").attr('src','/transcribe/themes/scribe/images/focus-bar-turnon.png');
+		} else {
+			document.getElementById('focusbar-top').style.display = "block";
+			document.getElementById('focusbar-bottom').style.display = "block";
+			jQuery("#focusBarImg").attr('src','/transcribe/themes/scribe/images/focus-bar-turnoff.png');
 		}
 	}
 </script>
